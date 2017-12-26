@@ -1,4 +1,4 @@
-package com.liusl.hrm.dao;
+package com.liusl.hrm.constant;
 
 /**
  * created by l1 on 2017/12/25.

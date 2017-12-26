@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.liusl.hrm.mapper.UserMapper">
-    <select id="selectUser" resultType="hashmap">
+<mapper namespace="com.liusl.hrm.dao.UserDao">
+    <!--根据登录名和密码查询员工-->
+    <select id="selectByNameAndPass" resultType="User">
+        SELECT * FROM user_info WHERE LOGINNAME = #{loginname} AND PASSWORD = #{password}
+    </select>
+    <!--根据ID查询员工-->
+    <select id="selectById" resultType="User">
         SELECT * FROM user_info WHERE ID = #{id}
+    </select>
+    <!--根据ID删除员工-->
+    <delete id="deleteById">
+        DELETE FROM user_info WHERE ID = #{id}
+    </delete>
+    <!--动态修改用户-->
+    <update id="updateUser" parameterType="com.liusl.hrm.model.User">
+        UPDATE user_info u
+        <set>
+            <if test="user.loginname != null and user.loginname !=''">
+                u.LOGINNAME = #{user.loginname},
+            </if>
+            <if test="user.username != null and user.username !=''">
+                u.USERNAME = #{user.username},
+            </if>
+            <if test="user.password != null and user.password !=''">
+                u.PASSWORD = #{user.password},
+            </if>
+            <if test="user.status != null and user.status !=''">
+                u.STATUS = #{user.status},
+            </if>
+            <if test="user.createDate != null">
+                u.CREATEDATE = #{user.createDate}
+            </if>
+        </set>
+        <where>
+            ID = #{user.id}
+        </where>
+    </update>
+    <!--分页查询-->
+    <select id="selectByPage" resultType="User">
+        SELECT * FROM user_info
     </select>
 </mapper>
